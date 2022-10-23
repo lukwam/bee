@@ -127,7 +127,6 @@ function parseContent(articleBody) {
     }
     text += "Two-Letter List: " + twoList;
 
-
     output = {
         "letters": letters,
         "words": words,
@@ -145,7 +144,7 @@ function parseContent(articleBody) {
 function get_request(url, callback, response){
     var options = {
         "headers": {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0",
+            "User-Agent": "curl/7.74.0"
         },
     }
     fetch(url, options)
