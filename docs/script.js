@@ -134,7 +134,11 @@ function getWords() {
     var text = textarea.value.trim();
     var words = [];
     if (text) {
-        words = text.split(" ");
+        for (let word of text.toLowerCase().replaceAll("\n", " ").split(" ")) {
+            if (word) {
+                words.push(word);
+            }
+        }
     }
     console.log(words);
     return words;
