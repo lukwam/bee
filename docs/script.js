@@ -70,6 +70,13 @@ function checkStats(words=null) {
     if (!words) {
         var words = getWords();
     }
+
+    // update the input box
+    let input = document.getElementById("words");
+    console.log(input);
+    input.value = words.join("\n");
+
+    // check number of words
     var words_left = checkWords(words);
     var output = words_left + " words left of " + data["words"] + " words.\n";
 
@@ -142,6 +149,7 @@ function getWords() {
             }
         }
     }
+    words.sort();
     console.log(words);
     return words;
 }
@@ -179,5 +187,5 @@ function isPerfect(letters, word) {
 }
 
 function hints() {
-    var ws=[],a=document.getElementsByClassName("sb-wordlist-items-pag")[0].getElementsByClassName("sb-anagram"),u="https://lukwam.github.io/bee/";for(var i=0;i<a.length;i++){ws.push(w=a[i].innerHTML);}; var u="https://lukwam.github.io/bee/?"+URLSearchParams({"words": ws}).toString(); open(u);
+    var ws=[],a=document.getElementsByClassName("sb-wordlist-items-pag")[0].getElementsByClassName("sb-anagram"),u="https://lukwam.github.io/bee/";for(var i=0;i<a.length;i++){ws.push(w=a[i].innerHTML);};var u="https://lukwam.github.io/bee/?"+new URLSearchParams({"words": ws}).toString();open(u);
 }
