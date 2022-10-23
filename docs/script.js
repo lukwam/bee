@@ -76,6 +76,24 @@ function checkStats() {
     const lengths = counts["lengths"];
     const letters = counts["letters"];
     const totals = counts["totals"];
+
+    // lengths
+    output += "\nLengths\n";
+    for (let i=0; i<totals.length; i++) {
+        let tot = totals[i];
+        let len = lengths[i];
+        if (tot) {
+            var t = "word";
+            if (tot > 1) {
+                t = "words";
+            }
+            if (len) {
+                output += "  " + tot + " " + len + "-letter " + t + "\n";
+            }
+        }
+    }
+
+    // letters
     output += "\nLetters:\n";
     for (let [k, v] of Object.entries(letters)) {
         if (!v[v.length-1]) {
