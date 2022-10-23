@@ -65,9 +65,11 @@ function checkPangrams(letters, words) {
     // check how many pangrams the user has
 }
 
-function checkStats() {
+function checkStats(words=null) {
     // words left
-    var words = getWords();
+    if (!words) {
+        var words = getWords();
+    }
     var words_left = checkWords(words);
     var output = words_left + " words left of " + data["words"] + " words.\n";
 
@@ -151,6 +153,13 @@ function loadPage() {
     var jsonString = httpGet(url);
     data = JSON.parse(jsonString);
     console.log(data);
+    let words = new URLSearchParams(window.location.search).get("words").split(",");
+    if (words) {
+        console.log("Words: " + words);
+        checkStats(words);
+        let div = document.getElementById("words");
+        div.innerHTML = words.join("\n");
+    }
 }
 
 function isPangram(letters, word) {
@@ -167,4 +176,8 @@ function isPerfect(letters, word) {
         return true;
     }
     return false;
+}
+
+function hints() {
+    var ws=[],a=document.getElementsByClassName("sb-wordlist-items-pag")[0].getElementsByClassName("sb-anagram"),u="https://lukwam.github.io/bee/";for(var i=0;i<a.length;i++){ws.push(w=a[i].innerHTML);}; var u="https://lukwam.github.io/bee/?"+URLSearchParams({"words": ws}).toString(); open(u);
 }
