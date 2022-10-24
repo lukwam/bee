@@ -179,7 +179,8 @@ class Hints {
             var output = "<b>" + found + "</b>/" + total + " pangrams found."
         }
         var foundDiv = document.getElementById("pangrams");
-        foundDiv.innerHTML = "<b>" + left + "</b> pangrams remaining.";
+        var note = left == 1 ? "pangram" : "pangrams";
+        foundDiv.innerHTML = "<b>" + left + "</b> " + note + " remaining.";
         var foundDiv = document.getElementById("pangrams-found");
         foundDiv.innerHTML = output;
     }
@@ -203,12 +204,9 @@ class Hints {
             let tot = totals[i];
             let len = lengths[i];
             if (tot) {
-                var t = "word";
-                if (tot > 1) {
-                    t = "words";
-                }
+                var note = tot == 1 ? "word" : "words";
                 if (len) {
-                    output += "<li>" + tot + " x " + len + "-letter " + t + "</li>\n";
+                    output += "<li>" + tot + " x " + len + "-letter " + note + "</li>\n";
                 }
             }
         }
@@ -239,7 +237,7 @@ class Hints {
         for (var letter of letters) {
             var words = false;
             var wordLengths = {};
-            var loutput = "<b>" + letter + "-words</b>\n";
+            var loutput = "<p><b>" + letter + "-words</b><br>\n";
             for (let word of this.#words) {
                 if (!word.startsWith(letter)) {
                     continue;
@@ -251,7 +249,7 @@ class Hints {
                 words = true;
             }
             for (let [k, v] of Object.entries(wordLengths)) {
-                loutput += "<p>" + v.join(" ") + "</p>\n";
+                loutput += k + ": " + v.join(" ") + "<br>\n";
             }
             if (words) {
                 output += loutput;
@@ -267,7 +265,8 @@ class Hints {
         var found = total - left;
 
         var leftDiv = document.getElementById("words-left");
-        leftDiv.innerHTML = "<b>" + left + "</b> words remaining.";
+        var note = left == 1 ? "word" : "words";
+        leftDiv.innerHTML = "<b>" + left + "</b> " + note + " remaining.";
 
         var foundDiv = document.getElementById("words-found");
         if (!left) {
