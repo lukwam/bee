@@ -321,7 +321,11 @@ class Bee {
     // get the user's list of words from the url search params
     getWordsFromArgs() {
         let params = new URLSearchParams(window.location.search);
-        var words = params.get("words").toLowerCase().split(",");
+        var words = params.get("words");
+        if (!words) {
+            return;
+        }
+        words = words.toLowerCase().split(",");
         if (words) {
             console.log("Words: " + words.join(" "));
             words.sort();
