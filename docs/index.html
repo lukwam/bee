@@ -1,15 +1,35 @@
-<html>
+<!doctype html>
+<html lang="en">
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Bee</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
         <script src="./script.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
-    <body onload="loadPage();">
-        <div id="input">
-            <p>
-                <textarea id="words" name="words" rows="30" cols="40" onblur="checkStats();"></textarea>
-                <textarea id="output" name="output" rows="30" cols="40"></textarea>
-            </p>
-            <button id="update" value="Update" onclick="checkStats();">Update</button>
+    <body onload="loadPage();" class="container">
+        <div id="page-header"><h2>Spelling Bee Hints for <span id="date-header"></span></h2></div>
+        <div id="content" class="row">
+            <div id="input" class="col-3">
+                <p>
+                    <textarea id="words" name="words" class="stats" rows="30" cols="28" onblur="updateStats();"></textarea>
+                </p>
+                <button id="update" value="Update" onclick="updateStats();">Update</button>
+            </div>
+            <div id="stats" class="col-4">
+                <div id="date-div" class="stats"><b>Date:</b> <span id="date">-</span></div>
+                <div id="words-left" class="stats">-</div>
+                <div id="pangrams" class="stats">-</div>
+                <div id="word-lengths" class="stats">-</div>
+                <div id="letter-lengths" class="stats">-</div>
+                <div id="letter-pairs" class="stats">-</div>
+            </div>
+            <div id="words-column" class="col-3 stats">
+                <div id="words-by-length" class="row">-</div>
+                <div id="words-by-letter" class="row"></div>
+            </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     </body>
 </html>
