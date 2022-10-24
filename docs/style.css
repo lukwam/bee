@@ -1,0 +1,19 @@
+.found-header {
+    width: 100%;
+}
+.input {
+    box-sizing: border-box;
+    height: 200px;
+    width: 100%;
+}
+.stats {
+    border: 1px solid black;
+    margin-top: 3px;
+    padding: 3px;
+}
+.stats-header {
+    width: 100%;
+}
+.words-header {
+    width: 100%;
+}

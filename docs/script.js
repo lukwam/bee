@@ -174,21 +174,24 @@ class Hints {
         if (!total) {
             var output = "No pangrams today.";
         } else if (!left) {
-            var output = "You found all " + total + " pangrams!";
+            var output = "All <b>" + total + "</b> pangrams found!";
         } else {
-            var output = "You found " + found + "/" + total + " pangrams, with " + left + " remaining."
+            var output = "<b>" + found + "</b>/" + total + " pangrams found."
         }
-        var div = document.getElementById("pangrams");
-        div.innerHTML = output;
+        var foundDiv = document.getElementById("pangrams");
+        foundDiv.innerHTML = "<b>" + left + "</b> pangrams remaining.";
+        var foundDiv = document.getElementById("pangrams-found");
+        foundDiv.innerHTML = output;
     }
 
     updateStats() {
-        this.updateWordsLeft();
+        this.updateWords();
         this.updatePangrams();
         this.updateWordLengths();
         this.updateLetterLengths();
         this.updatePairs()
         this.updateWordsByLength();
+        this.updateWordsByLetter();
     }
 
     updateWordLengths() {
@@ -223,37 +226,55 @@ class Hints {
             wordLengths[word.length].push(word);
         }
         for (let [k, v] of Object.entries(wordLengths)) {
-            output += "<b>" + k + "-letters</b><br>\n";
+            output += "<b>" + k + "-letter words</b><br>\n";
             output += "<p>" + v.join(" ") + "</p>\n";
         }
         var div = document.getElementById("words-by-length");
         div.innerHTML = output;
     }
 
-    // updateWordsByLetter() {
-    //     var output = "";
-    //     var wordLengths = {};
-    //     for (let word of this.#words) {
-    //         if (!wordLengths[word.length]) {
-    //             wordLengths[word.length] = [];
-    //         }
-    //         wordLengths[word.length].push(word);
-    //     }
-    //     for (let [k, v] of Object.entries(wordLengths)) {
-    //         output += "<b>" + k + "-letters</b><br>\n";
-    //         output += "<p>" + v.join(" ") + "</p>\n";
-    //     }
-    //     var div = document.getElementById("words-by-length");
-    //     div.innerHTML = output;
-    // }
+    updateWordsByLetter() {
+        var letters = this.#letters.slice().sort();
+        var output = "";
+        for (var letter of letters) {
+            var words = false;
+            var wordLengths = {};
+            var loutput = "<b>" + letter + "-words</b>\n";
+            for (let word of this.#words) {
+                if (!word.startsWith(letter)) {
+                    continue;
+                }
+                if (!wordLengths[word.length]) {
+                    wordLengths[word.length] = [];
+                }
+                wordLengths[word.length].push(word);
+                words = true;
+            }
+            for (let [k, v] of Object.entries(wordLengths)) {
+                loutput += "<p>" + v.join(" ") + "</p>\n";
+            }
+            if (words) {
+                output += loutput;
+            }
+        }
+        var div = document.getElementById("words-by-letter");
+        div.innerHTML = output;
+    }
 
-    updateWordsLeft() {
+    updateWords() {
         var total = this.#hints["words"];
         var left = this.checkWordsLeft();
         var found = total - left;
-        var div = document.getElementById("words-left");
-        var output = "You found " + found + "/" + total + " words with " + left + " remaining.";
-        div.innerHTML = output
+
+        var leftDiv = document.getElementById("words-left");
+        leftDiv.innerHTML = "<b>" + left + "</b> words remaining.";
+
+        var foundDiv = document.getElementById("words-found");
+        if (!left) {
+            foundDiv.innerHTML = "All <b>" + total + "</b> words found!";
+        } else {
+            foundDiv.innerHTML = "<b>" + found + "</b>/" + total + " words found.";
+        }
     }
 
 }
@@ -355,8 +376,8 @@ class Bee {
     // update date on the page
     updateDate() {
         var date = this.getPstDateString();
-        var div = document.getElementById("date");
-        div.innerHTML = date;
+        // var div = document.getElementById("date");
+        // div.innerHTML = date;
         var span = document.getElementById("date-header");
         span.innerHTML = date;
     }
@@ -365,7 +386,7 @@ class Bee {
     updateWords() {
         let words = this.words();
         let div = document.getElementById("words");
-        div.value = words.join("\n");
+        div.value = words.join(" ");
     }
 
 }
