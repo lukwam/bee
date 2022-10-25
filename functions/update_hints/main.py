@@ -160,6 +160,7 @@ def update_hints(request):
     pst = pytz.timezone('America/Los_Angeles')
     date = datetime.datetime.now(pst)
     update_date(date)
+    return "ok"
 
 
 if __name__ == "__main__":
