@@ -10,6 +10,7 @@ steps:
       - --project=${PROJECT_ID}
       - --region=us-central1
       - --runtime=python39
+      - --service-account="hints@lukwam-bee.iam.gserviceaccount.com"
       - --timeout=30
       - --trigger-http
       - -q
