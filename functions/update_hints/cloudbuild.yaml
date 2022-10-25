@@ -1,0 +1,15 @@
+---
+steps:
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:alpine
+    dir: functions/update_hints
+    entrypoint: gcloud
+    args:
+      - functions
+      - deploy
+      - update_hints
+      - --project=${PROJECT_ID}
+      - --region=us-central1
+      - --runtime=python39
+      - --timeout=30
+      - --trigger-http
+      - -q
