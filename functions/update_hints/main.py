@@ -1,6 +1,7 @@
 """Update Spelling Bee Hints Cloud Function."""
 import datetime
 import json
+import pytz
 import requests
 import time
 from bs4 import BeautifulSoup
@@ -29,7 +30,7 @@ def get_html(date=None):
 def parse_html(html):
     """Parse an HTML string."""
     soup = BeautifulSoup(html, 'html.parser')
-    title = soup.title.string 
+    title = soup.title.string
     print(f"Title: {title}")
 
     table = soup.find_all("table", {"class": "table"})[0]
@@ -48,7 +49,7 @@ def parse_html(html):
     }
     for key in info:
         data[key] = info[key]
-    
+
     return data
 
 
@@ -125,12 +126,12 @@ def parse_table(soup, table):
         for cell in cells[1:]:
             count = int(cell.string.replace("-", "0"))
             counts.append(count)
-        
+
         if letter:
             info["letters"][letter] = counts
         else:
             info["totals"] = counts
-    
+
     return info
 
 
@@ -156,15 +157,8 @@ def update_date(date):
 
 def update_hints(request):
     """Update Hints entrypoint."""
-    # start_date = datetime.datetime.strptime("2022-10-22", "%Y-%m-%d")
-    # end_date = datetime.datetime.strptime("2022-01-01", "%Y-%m-%d")
-    # date = start_date
-    # while date > end_date:
-    #     print(f"\n{date}")
-    #     update_date(date)
-    #     date -= datetime.timedelta(days=1)
-    #     time.sleep(1)
-    date = datetime.datetime.today()
+    pst = pytz.timezone('America/Los_Angeles')
+    date = datetime.datetime.now(pst)
     update_date(date)
 
 
