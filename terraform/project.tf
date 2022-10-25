@@ -19,6 +19,8 @@ resource "google_project_service" "services" {
     "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",
     "cloudfunctions.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
+    "cloudscheduler.googleapis.com",
     "eventarc.googleapis.com",
     "iap.googleapis.com",
     "logging.googleapis.com",
@@ -35,4 +37,15 @@ resource "google_project_service" "services" {
 resource "google_service_account" "hints" {
   account_id   = "bee-hints"
   display_name = "Hints Service Account"
+}
+
+resource "google_project_iam_member" "cloudbuild" {
+  for_each = toset([
+    "roles/cloudbuild.builds.builder",
+    "roles/cloudfunctions.developer",
+    "roles/iam.serviceAccountUser",
+  ])
+  project = google_project_service.services["cloudbuild.googleapis.com"].project
+  role    = each.key
+  member  = "serviceAccount:${google_project.project.number}@cloudbuild.gserviceaccount.com"
 }
