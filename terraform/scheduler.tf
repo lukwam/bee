@@ -8,11 +8,13 @@ resource "google_cloud_scheduler_job" "update_hints" {
   region           = var.region
   http_target {
     http_method = "POST"
-    uri = "https://workflowexecutions.googleapis.com/v1/projects/${var.project_id}/locations/${var.region}/workflows/workday-people-feed/executions"
+    uri = "https://us-central1-lukwam-bee.cloudfunctions.net/update_hints"
 
-    oauth_token {
+    oidc_token {
+      audience = "https://us-central1-lukwam-bee.cloudfunctions.net/update_hints"
       service_account_email = "${var.project_id}@appspot.gserviceaccount.com"
     }
+
   }
 
   depends_on = [
