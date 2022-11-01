@@ -132,14 +132,13 @@ class Hints {
         const letters = counts["letters"];
 
         // letters
-        var output = "<b>Letters:</b>\n";
+        var output = "<b>Letters:</b><br>\n";
         for (let [k, v] of Object.entries(letters)) {
             if (!v[v.length-1]) {
                 continue;
             }
-            output += "<li>" + k + ": ";
+            output += "" + k + ": ";
             for (let i=0; i<v.length; i++) {
-                // output += "<li>";
                 let count = v[i];
                 let value = lengths[i];
                 if (value && count > 0) {
@@ -148,7 +147,7 @@ class Hints {
                     output += " (" + count + ")";
                 }
             }
-            output += "</li>\n";
+            output += "<br>\n";
         }
         var div = document.getElementById("letter-lengths");
         div.innerHTML = output;
@@ -157,10 +156,10 @@ class Hints {
     updatePairs() {
         // two-letter stats
         var pairs = this.checkPairs();
-        var output = "<b>Pairs</b>\n";
+        var output = "<b>Pairs</b><br>\n";
         for (let [k, v] of Object.entries(pairs)) {
             if (v > 0) {
-                output += "<li>" + k + ": " + v + "</li>\n";
+                output += "" + k + ": " + v + "<br>\n";
             }
         }
         var div = document.getElementById("letter-pairs");
@@ -199,14 +198,14 @@ class Hints {
         var counts = this.checkLetterLengths();
         const lengths = counts["lengths"];
         const totals = counts["totals"];
-        var output = "<b>Word Lengths</b>\n";
+        var output = "<b>Word Lengths</b><br>\n";
         for (let i=0; i<totals.length; i++) {
             let tot = totals[i];
             let len = lengths[i];
             if (tot) {
                 var note = tot == 1 ? "word" : "words";
                 if (len) {
-                    output += "<li>" + tot + " x " + len + "-letter " + note + "</li>\n";
+                    output += "" + tot + " x " + len + "-letter " + note + "<br\n";
                 }
             }
         }
@@ -357,8 +356,14 @@ class Bee {
     getPstDateString() {
         const date = new Date()
         const pst = date.toLocaleString('en-US', {timeZone: 'America/Los_Angeles'});
-        const parts = pst.split(",")[0].split("/"),
-            m = parts[0], d = parts[1], y = parts[2];
+        const parts = pst.split(",")[0].split("/");
+        var m = parts[0], d = parts[1], y = parts[2];
+        if (m.length == 1) {
+            m = "0" + m;
+        }
+        if (d.length == 1) {
+            d = "0" + d;
+        }
         return y + "-" + m + "-" + d;
     }
 
