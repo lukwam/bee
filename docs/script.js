@@ -132,7 +132,7 @@ class Hints {
         const letters = counts["letters"];
 
         // letters
-        var output = "<b>Letters:</b><br>\n";
+        var output = "<b>Letters</b><br>\n";
         for (let [k, v] of Object.entries(letters)) {
             if (!v[v.length-1]) {
                 continue;
@@ -202,11 +202,12 @@ class Hints {
         for (let i=0; i<totals.length; i++) {
             let tot = totals[i];
             let len = lengths[i];
-            if (tot) {
-                var note = tot == 1 ? "word" : "words";
-                if (len) {
-                    output += "" + tot + " x " + len + "-letter " + note + "<br\n";
-                }
+            let note = "words";
+            if (tot == "1") {
+                note = "word";
+            }
+            if (len && tot) {
+                output += "" + tot + " x " + len + "-letter " + note + "<br>\n";
             }
         }
         var div = document.getElementById("word-lengths");
