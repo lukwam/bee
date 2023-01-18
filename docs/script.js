@@ -395,7 +395,7 @@ class Bee {
     updateWords() {
         let words = this.words();
         let div = document.getElementById("words");
-        div.value = words.join(" ");
+        div.value = words.join(" ") + " ";
     }
 
 }
