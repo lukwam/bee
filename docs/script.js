@@ -411,6 +411,11 @@ function loadPage() {
     }
 }
 
+function setFocus() {
+    var textarea = document.getElementById("words");
+    textarea.focus();
+}
+
 function updateStats(onLoad=false) {
     if (!onLoad) {
         bee.getWordsFromInput();
@@ -420,6 +425,7 @@ function updateStats(onLoad=false) {
     hints.updateStats();
 }
 
+window.addEventListener("focus", setFocus);
 
 // function hints() {
 //     var ws=[],a=document.getElementsByClassName("sb-wordlist-items-pag")[0].getElementsByClassName("sb-anagram"),u="https://lukwam.github.io/bee/";for(var i=0;i<a.length;i++){ws.push(w=a[i].innerHTML);};var u="https://lukwam.github.io/bee/?"+new URLSearchParams({"words": ws}).toString();open(u);
