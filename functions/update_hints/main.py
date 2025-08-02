@@ -1,9 +1,10 @@
 """Update Spelling Bee Hints Cloud Function."""
+
 import datetime
 import json
 import pytz
 import requests
-import time
+
 from bs4 import BeautifulSoup
 from google.cloud import storage
 
@@ -12,29 +13,36 @@ def get_date_string(date=None):
     """Return the date string for the url."""
     if not date:
         date = datetime.date.today()
-    return date.strftime('%Y/%m/%d')
+    return date.strftime("%Y/%m/%d")
 
 
 def get_html(date=None):
     """Return the html for the given date."""
     date_string = get_date_string(date)
-    headers = {
-        "user-agent": "curl/7.74.0",
-    }
     url = f"https://www.nytimes.com/{date_string}/crosswords/spelling-bee-forum.html"
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
-    return response.text
+    # response = requests.get(url, headers=headers, timeout=10)
+    # response.raise_for_status()
+    response = requests.post(
+        "https://api.zyte.com/v1/extract",
+        auth=("8f46c21a7b4246049c19a0bde260870b", ""),
+        json={
+            "url": url,
+            "browserHtml": True,
+        },
+        timeout=60,
+    )
+    return response.json()["browserHtml"]
 
 
 def parse_html(html):
     """Parse an HTML string."""
-    soup = BeautifulSoup(html, 'html.parser')
-    title = soup.title.string
+    soup = BeautifulSoup(html, "html.parser")
+
+    title = soup.title.string if soup.title else ""
     print(f"Title: {title}")
 
     table = soup.find_all("table", {"class": "table"})[0]
-    table_data = parse_table(soup, table)
+    table_data = parse_table(table)
 
     p_contents = soup.find_all("p", {"class": "content"})
 
@@ -47,9 +55,8 @@ def parse_html(html):
         "counts": table_data,
         "pairs": pairs,
     }
-    for key in info:
-        data[key] = info[key]
-
+    for key, value in info.items():
+        data[key] = value
     return data
 
 
@@ -89,7 +96,7 @@ def parse_pairs(html):
     return pairs
 
 
-def parse_table(soup, table):
+def parse_table(table):
     """Parse the table data."""
     trs = table.find_all("tr", {"class": "row"})
     header = trs[0]
@@ -143,7 +150,7 @@ def save_hints(date, hints):
     bucket = client.bucket(bucket_name)
     blob = bucket.blob(filename)
     blob_string = json.dumps(hints, sort_keys=True)
-    blob.upload_from_string(blob_string, content_type='application/json')
+    blob.upload_from_string(blob_string, content_type="application/json")
 
 
 def update_date(date):
@@ -155,9 +162,9 @@ def update_date(date):
     save_hints(date, data)
 
 
-def update_hints(request):
+def update_hints(_):
     """Update Hints entrypoint."""
-    pst = pytz.timezone('America/Los_Angeles')
+    pst = pytz.timezone("America/Los_Angeles")
     date = datetime.datetime.now(pst)
     update_date(date)
     return "ok"

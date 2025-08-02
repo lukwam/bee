@@ -9,7 +9,7 @@ steps:
       - update_hints
       - --project=${PROJECT_ID}
       - --region=us-central1
-      - --runtime=python39
+      - --runtime=python312
       - --service-account=bee-hints@lukwam-bee.iam.gserviceaccount.com
       - --timeout=30
       - --trigger-http

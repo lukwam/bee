@@ -1,0 +1,26 @@
+[project]
+name = "update-hints"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Lukas Karlsson",email = "karlsson@altissimo.io"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4 (>=4.13.4,<5.0.0)",
+    "google-cloud-storage (>=3.2.0,<4.0.0)",
+    "pytz (>=2025.2,<2026.0)",
+    "requests (>=2.32.4,<3.0.0)",
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+
