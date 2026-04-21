@@ -4,6 +4,7 @@ resource "google_cloudbuild_trigger" "deploy-update-hints-function" {
   description    = "Deploy Update Hints Function"
   filename       = "functions/update_hints/cloudbuild.yaml"
   project        = google_project_service.services["cloudbuild.googleapis.com"].project
+  location       = var.region
   # include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
 
   included_files = [
