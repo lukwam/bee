@@ -3,7 +3,7 @@ resource "google_cloud_scheduler_job" "update_hints" {
   description      = "Run \"update_hints\" function"
   schedule         = "5 3 * * *"
   time_zone        = "America/New_York"
-  attempt_deadline = "60s"
+  attempt_deadline = "600s"
   project          = google_project_service.services["cloudscheduler.googleapis.com"].project
   region           = var.region
   http_target {

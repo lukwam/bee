@@ -1,16 +1,15 @@
 resource "google_project" "project" {
-  name                = var.project_name
-  project_id          = var.project_id
-  folder_id           = var.folder_id
-  billing_account     = var.billing_account
+  name            = var.project_name
+  project_id      = var.project_id
+  folder_id       = var.folder_id
+  billing_account = var.billing_account
 
   labels = {
-      app             = var.app,
-      billing         = lower(var.billing_account),
+    app     = var.app,
+    billing = lower(var.billing_account),
   }
 
   auto_create_network = false
-  skip_delete         = false
 }
 
 resource "google_project_service" "services" {
@@ -25,11 +24,12 @@ resource "google_project_service" "services" {
     "iap.googleapis.com",
     "logging.googleapis.com",
     "run.googleapis.com",
+    "secretmanager.googleapis.com",
     "storage-api.googleapis.com",
     "storage.googleapis.com",
   ])
-  project = google_project.project.project_id
-  service = each.key
+  project                    = google_project.project.project_id
+  service                    = each.key
   disable_dependent_services = false
   disable_on_destroy         = false
 }
@@ -48,4 +48,10 @@ resource "google_project_iam_member" "cloudbuild" {
   project = google_project_service.services["cloudbuild.googleapis.com"].project
   role    = each.key
   member  = "serviceAccount:${google_project.project.number}@cloudbuild.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "hints-secret-accessor" {
+  project = google_project.project.project_id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${google_service_account.hints.email}"
 }

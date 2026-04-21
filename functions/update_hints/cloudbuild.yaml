@@ -7,10 +7,12 @@ steps:
       - functions
       - deploy
       - update_hints
+      - --gen2
       - --project=${PROJECT_ID}
       - --region=us-central1
       - --runtime=python312
       - --service-account=bee-hints@lukwam-bee.iam.gserviceaccount.com
-      - --timeout=30
+      - --set-secrets=ZYTE_API_KEY=zyte-api-key:latest
+      - --timeout=300
       - --trigger-http
       - -q

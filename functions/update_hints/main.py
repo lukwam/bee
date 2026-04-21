@@ -2,6 +2,9 @@
 
 import datetime
 import json
+import os
+
+import functions_framework
 import pytz
 import requests
 
@@ -20,16 +23,15 @@ def get_html(date=None):
     """Return the html for the given date."""
     date_string = get_date_string(date)
     url = f"https://www.nytimes.com/{date_string}/crosswords/spelling-bee-forum.html"
-    # response = requests.get(url, headers=headers, timeout=10)
-    # response.raise_for_status()
+    api_key = os.environ["ZYTE_API_KEY"]
     response = requests.post(
         "https://api.zyte.com/v1/extract",
-        auth=("8f46c21a7b4246049c19a0bde260870b", ""),
+        auth=(api_key, ""),
         json={
             "url": url,
             "browserHtml": True,
         },
-        timeout=60,
+        timeout=180,
     )
     return response.json()["browserHtml"]
 
@@ -162,7 +164,8 @@ def update_date(date):
     save_hints(date, data)
 
 
-def update_hints(_):
+@functions_framework.http
+def update_hints(request):
     """Update Hints entrypoint."""
     pst = pytz.timezone("America/Los_Angeles")
     date = datetime.datetime.now(pst)
