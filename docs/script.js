@@ -279,7 +279,7 @@ class Hints {
 }
 
 class Bee {
-    #bucketBaseUrl = "https://storage.googleapis.com/lukwam-nyt-puzzles-public/spelling-bee/hints/";
+    #bucketBaseUrl = "https://storage.googleapis.com/lukwam-gamesapp-public/spelling-bee/hints/";
     #hints = {};
     #letters = [];
     #words = [];
