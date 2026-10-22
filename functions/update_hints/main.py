@@ -43,10 +43,11 @@ def parse_html(html):
     title = soup.title.string if soup.title else ""
     print(f"Title: {title}")
 
-    table = soup.find_all("table", {"class": "table"})[0]
-    table_data = parse_table(table)
+    # the page now includes empty copies of the table and paragraphs, so skip them
+    tables = [t for t in soup.find_all("table", {"class": "table"}) if t.get_text(strip=True)]
+    table_data = parse_table(tables[0])
 
-    p_contents = soup.find_all("p", {"class": "content"})
+    p_contents = [p for p in soup.find_all("p", {"class": "content"}) if p.get_text(strip=True)]
 
     letters = parse_letters(p_contents[1])
     info = parse_info(p_contents[2])
