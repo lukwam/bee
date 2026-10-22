@@ -24,6 +24,9 @@ provider "google-beta" {
 
 variable "app" {}
 variable "branch" {}
+variable "developers" {
+  default = []
+}
 variable "billing_account" {}
 variable "domain_name" {}
 variable "folder_id" {}

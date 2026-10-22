@@ -55,3 +55,10 @@ resource "google_project_iam_member" "hints-secret-accessor" {
   role    = "roles/secretmanager.secretAccessor"
   member  = "serviceAccount:${google_service_account.hints.email}"
 }
+
+resource "google_service_account_iam_member" "hints-token-creator" {
+  for_each           = toset(var.developers)
+  service_account_id = google_service_account.hints.name
+  role               = "roles/iam.serviceAccountTokenCreator"
+  member             = each.key
+}
